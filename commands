@@ -42,7 +42,7 @@ set_dokku_env() {
 
 MONGODB_VERSION=""
 get_mongodb_version() {
-  MONGODB_VERSION=$(docker run --rm jeffutter/mongodb mongod --version | egrep -o '[[:digit:]\.]*'|head -n1)
+  MONGODB_VERSION=$(docker run --rm chmanie/mongodb-mult mongod --version | egrep -o '[[:digit:]\.]*'|head -n1)
 }
 
 MONGODB_AUTH_SCHEMA_VERSION=""
@@ -82,14 +82,8 @@ vercomp () {
 }
 
 get_mongodb_version
-vercomp "$MONGODB_VERSION" '2.5.9999999999999999'                                                                                                                                                   
-if [[ $? == 1 ]]; then
-  # 2.6
-  db_image="jeffutter/mongodb:latest"
-else
-  # 2.4
-  db_image="jeffutter/mongodb:2.4"
-fi
+vercomp "$MONGODB_VERSION" '2.5.9999999999999999'
+db_image="chmanie/mongodb-mult:latest"
 
 admin_pass=$(cat "$DOKKU_ROOT/.mongodb/admin_pw")
 mongodb_database="${DATABASE/./_}-production"
@@ -120,10 +114,10 @@ case "$1" in
     else
       echo $mongodb_password > "$DOKKU_ROOT/.mongodb/pass_${APP}_${DATABASE}"
     fi
-    
+
 
     mongodb_username=$APP
-    
+
     get_mongodb_auth_schema_version
     vercomp "$MONGODB_AUTH_SCHEMA_VERSION" '2.9999999'
     if [[ $? == 1 ]]; then

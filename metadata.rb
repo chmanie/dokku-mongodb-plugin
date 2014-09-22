@@ -1,3 +1,3 @@
 name              "dokku-mongodb-plugin"
-maintainer        "Jeffery Utter"
-maintainer_email  "jeff@jeffutter.com"
+maintainer        "Christian Maniewski"
+maintainer_email  "chmanie@gmail.com"

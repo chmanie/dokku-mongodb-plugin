@@ -32,17 +32,13 @@ vercomp () {
 }
 
 # Build MongoDB image
-if [[ $(docker images) == *jeffutter/mongodb* ]]
+if [[ $(docker images) == *chmanie/mongodb-mult* ]]
 then
-  MONGODB_VERSION=$(docker run --rm jeffutter/mongodb mongod --version | egrep -o '[[:digit:]\.]*'|head -n1)
-  vercomp "$MONGODB_VERSION" '2.5.9999999999999999'                                                                                                                                                   
-  if [[ $? == 1 ]]; then
-    db_image="jeffutter/mongodb"
-  else
-    db_image="jeffutter/mongodb:2.4"
-  fi
-else 
-  db_image="jeffutter/mongodb"
+  MONGODB_VERSION=$(docker run --rm chmanie/mongodb-mult mongod --version | egrep -o '[[:digit:]\.]*'|head -n1)
+  vercomp "$MONGODB_VERSION" '2.5.9999999999999999'
+  db_image="chmanie/mongodb-mult"
+else
+  db_image="chmanie/mongodb-mult"
 fi
 docker pull "$db_image"
 
@@ -52,7 +48,7 @@ then
 else
   previous_mongo_install=false
 fi
-  
+
 apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 echo deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen > /etc/apt/sources.list.d/10gen.list
 apt-get update
@@ -96,7 +92,7 @@ if [[ ! -d "$DOKKU_ROOT/.mongodb" ]]; then
   docker stop "$id"
 
   if [ "$admin_sucess" = true ]; then
-    echo "Unable to create the admin user!" 
+    echo "Unable to create the admin user!"
   fi
 fi
 

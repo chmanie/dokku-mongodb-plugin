@@ -6,7 +6,7 @@ Plugin to setup Mongodb accounts for containers deployed to Dokku
 Installation
 ------------
 ```
-git clone https://github.com/jeffutter/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb
+git clone https://github.com/chmanie/dokku-mongodb-plugin.git /var/lib/dokku/plugins/mongodb
 dokku plugins-install
 ```
 
@@ -57,6 +57,6 @@ dokku config foo
 Persistence
 -----------
 
-The Mongo DB data is stored outside the container on the host at `$DOKKU_ROOT/.mongodb/data`. Inside the container, this location is bound to `/tmp/mongo` and will be there. 
-Since the data is stored outside the container, it will persistent through container restarts, and also be available to future revisions of your container. 
+The Mongo DB data is stored outside the container on the host at `$DOKKU_ROOT/.mongodb/data`. Inside the container, this location is bound to `/tmp/mongo` and will be there.
+Since the data is stored outside the container, it will persistent through container restarts, and also be available to future revisions of your container.
 
