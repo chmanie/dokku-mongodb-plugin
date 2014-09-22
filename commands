@@ -86,7 +86,7 @@ vercomp "$MONGODB_VERSION" '2.5.9999999999999999'
 db_image="chmanie/mongodb-mult:latest"
 
 admin_pass=$(cat "$DOKKU_ROOT/.mongodb/admin_pw")
-mongodb_database="${DATABASE/./_}-production"
+mongodb_database="${DATABASE/./_}"
 
 id=$(docker ps | grep "$db_image" |  awk '{print $1}')
 if [[ -n "$id" ]]; then
