@@ -1,6 +1,6 @@
 MongoDB plugin for Dokku
 ---------------------------
-Plugin to setup Mongodb accounts for containers deployed to Dokku
+Plugin to setup Mongodb accounts for containers deployed to Dokku. Works with [dokku-alt](https://github.com/dokku-alt/dokku-alt)
 
 
 Installation
@@ -15,10 +15,15 @@ Commands
 --------
 ```
 $ dokku help
-     mongodb:create <app>   Create a Mongo database
-     mongodb:delete <app>   Delete specified Mongo database
-     mongodb:list           List all databases
-     mongodb:console        Launch a mongodb console as admin
+     mongodb:console                    Launch an admin mongodb console
+     mongodb:create <app> <database>    Create a Mongo database and optional params for app
+     mongodb:delete <app> <database>    Delete specified Mongo database
+     mongodb:link <app> <database>      Set ENV variables for app if database exists
+     mongodb:list                       List all databases
+     mongodb:logs                       Show logs from MongoDB program
+     mongodb:start                      Start the MongoDB docker container if it isn't running
+     mongodb:status                     Shows status of MongoDB
+     mongodb:stop                       Stop the MongoDB docker container
 ```
 
 Simple usage
