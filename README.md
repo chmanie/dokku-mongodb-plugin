@@ -1,6 +1,9 @@
 MongoDB plugin for Dokku
----------------------------
-Plugin to setup Mongodb accounts for containers deployed to Dokku. Works with [dokku-alt](https://github.com/dokku-alt/dokku-alt)
+------------------------
+
+Plugin to setup Mongodb accounts for containers deployed to Dokku. Works with [dokku-alt](https://github.com/dokku-alt/dokku-alt).
+
+Warning: This uses a custom build of mongodb per default ([chmanie/mongodb-mult](https://registry.hub.docker.com/u/chmanie/mongodb-mult/)). If you want to use this plugin, change the DB_IMAGE variable in the ````vars```` file according to your needs.
 
 
 Installation

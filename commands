@@ -1,6 +1,8 @@
 #!/bin/bash
 #set -e;
 
+source "$(dirname $0)/vars"
+
 if [[ -z "$3"  ]]; then
   APP=$2
   DATABASE=$2
@@ -42,7 +44,7 @@ set_dokku_env() {
 
 MONGODB_VERSION=""
 get_mongodb_version() {
-  MONGODB_VERSION=$(docker run --rm chmanie/mongodb-mult mongod --version | egrep -o '[[:digit:]\.]*'|head -n1)
+  MONGODB_VERSION=$(docker run --rm $DB_IMAGE mongod --version | egrep -o '[[:digit:]\.]*'|head -n1)
 }
 
 MONGODB_AUTH_SCHEMA_VERSION=""
@@ -83,12 +85,11 @@ vercomp () {
 
 get_mongodb_version
 vercomp "$MONGODB_VERSION" '2.5.9999999999999999'
-db_image="chmanie/mongodb-mult:latest"
 
 admin_pass=$(cat "$DOKKU_ROOT/.mongodb/admin_pw")
 mongodb_database="${DATABASE/./_}"
 
-id=$(docker ps | grep "$db_image" |  awk '{print $1}')
+id=$(docker ps | grep "$DB_IMAGE" |  awk '{print $1}')
 if [[ -n "$id" ]]; then
   mongodb_public_ip=$(docker port ${id} 27017 | awk '{split($0,a,":"); print a[1]}')
   mongodb_private_ip=$(docker inspect ${id} | grep IPAddress | awk '{ print $2 }' | tr -d ',"')
@@ -160,7 +161,7 @@ case "$1" in
       set_dokku_env MONGO_URL "mongodb://${mongodb_username}:${mongodb_password}@${mongodb_private_ip}:${mongodb_internal_port}/${mongodb_database}"
 
       echo
-      echo "-----> $APP linked to $db_image container"
+      echo "-----> $APP linked to $DB_IMAGE container"
     fi
     ;;
   mongodb:list)
@@ -175,11 +176,11 @@ case "$1" in
     if [[ "$id" != "" ]]; then
       echo "MongoDB container already running with ID: ${id}"
     else
-      stopped_id=$(docker ps -a | grep "$db_image[[:space:]].\+[[:space:]]dokku-mongodb[[:space:]]*$" |  awk '{print $1}')
+      stopped_id=$(docker ps -a | grep "$DB_IMAGE[[:space:]].\+[[:space:]]dokku-mongodb[[:space:]]*$" |  awk '{print $1}')
       if [[ "$stopped_id" != "" ]]; then
         docker start $stopped_id
       else
-        docker run -p 27017 -v "$DOKKU_ROOT/.mongodb/data":/tmp/mongo --name="dokku-mongodb" -d "$db_image" /usr/bin/mongod --dbpath=/tmp/mongo --auth
+        docker run -p 27017 -v "$DOKKU_ROOT/.mongodb/data":/tmp/mongo --name="dokku-mongodb" -d "$DB_IMAGE" /usr/bin/mongod --dbpath=/tmp/mongo --auth
       fi
     fi
     ;;

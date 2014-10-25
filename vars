@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+DB_IMAGE="${MONGODB_IMAGE:-chmanie/mongodb-mult}"
